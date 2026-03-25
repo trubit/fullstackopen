@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base URL for the persons resource in the backend.
-const baseUrl = "http://localhost:3001/persons";
+const baseUrl = "http://localhost:3001/api/persons";
 
 // Fetch all persons from the backend.
 const getAll = () => {
