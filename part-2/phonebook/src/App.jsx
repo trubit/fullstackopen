@@ -4,6 +4,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Notification from "./components/Notification";
+import "./App.css";
 
 const App = () => {
   // Holds all people in the phonebook list.
@@ -20,6 +21,7 @@ const App = () => {
     message: null,
     type: "success",
   });
+  const [errorMessage, setErrorMessage] = useState(null);
   const notificationTimeoutRef = useRef(null);
 
   useEffect(() => {
@@ -130,13 +132,17 @@ const App = () => {
         setPersons((prevPersons) => prevPersons.concat(savedPerson));
         setNewName("");
         setNewNumber("");
+        setErrorMessage(null);
         showNotification(`Added ${savedPerson.name}`);
       })
-      .catch(() => {
-        showNotification(
-          `Failed to add ${personObject.name}. Is the backend running?`,
-          "error"
+      .catch((error) => {
+        const backendMessage = error?.response?.data?.error;
+        setErrorMessage(
+          backendMessage || `Failed to add ${personObject.name}.`
         );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
       });
   };
 
@@ -184,6 +190,8 @@ const App = () => {
         type={notification.type}
       />
       <Filter value={searchTerm} onChange={handleSearchChange} />
+
+      {errorMessage && <div className="error">{errorMessage}</div>}
 
       <h3>Add a new</h3>
       <PersonForm
