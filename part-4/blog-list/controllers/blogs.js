@@ -50,13 +50,13 @@ router.get("/:id", async (req, res) => {
 
 // Update a blog by ID
 router.put("/:id", async (req, res) => {
+  const { title, author, url, likes } = req.body;
   try {
     const updated = await Blog.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { likes: req.body.likes },
-      { new: true },
-    );
+      { title, author, url, likes },
+      { new: true, runValidators: true },
+    ).populate("user", { username: 1, name: 1 });
     if (!updated) return res.status(404).json({ error: "Blog not found" });
     res.json(updated);
   } catch (err) {
