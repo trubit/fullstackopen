@@ -29,8 +29,7 @@ export default function BlogDetails({
       .then((data) => {
         setBlog(data);
       })
-      .catch((err) => {
-        console.error("Error fetching blog:", err);
+      .catch(() => {
         setError("Blog not found");
       });
   }, [id]);
@@ -55,8 +54,8 @@ export default function BlogDetails({
       if (updateBlogInState) {
         updateBlogInState(blogWithUser);
       }
-    } catch (err) {
-      console.error("Failed to like the blog:", err);
+    } catch {
+      return;
     }
   };
 
@@ -70,7 +69,6 @@ export default function BlogDetails({
         }
         navigate("/");
       } catch (error) {
-        console.error("Failed to remove the blog:", error);
         alert(
           "Failed to remove the blog: " +
             (error.response?.data?.error || "Forbidden"),

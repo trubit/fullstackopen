@@ -1,8 +1,49 @@
-# React + Vite
+# BlogList Monorepo (Exercise 7.7)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository now contains both frontend and backend in the same repo, with separate package files.
 
-Currently, two official plugins are available:
+## Project structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `src/` frontend (React + Vite)
+- `server/` backend (Node + Express + MongoDB)
+- root `package.json` for frontend
+- `server/package.json` for backend
+
+## Frontend development
+
+Run in repository root:
+
+```bash
+npm install
+npm run dev
+```
+
+The Vite server keeps hot reload and proxies `/api` to `http://localhost:3003`.
+
+## Backend development
+
+Run in `server/`:
+
+```bash
+npm install
+npm run dev
+```
+
+Create `server/.env` from `server/.env.example` and set:
+
+- `MONGODB_URI`
+- `SECRET`
+- optional `PORT` (default `3003`)
+
+## Production workflow
+
+Run in `server/`:
+
+```bash
+npm run build && npm start
+```
+
+- `npm run build` in `server/` builds the frontend into `../dist`
+- `npm start` runs the backend and serves:
+  - API routes under `/api/*`
+  - built frontend from `../dist`

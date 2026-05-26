@@ -112,8 +112,8 @@ const Blog = ({
         user: response.user?.id ? response.user : blog.user,
       };
       updateBlogInState(blogWithUser);
-    } catch (error) {
-      console.error("Failed to like the blog:", error);
+    } catch {
+      return;
     }
   };
 
@@ -123,7 +123,6 @@ const Blog = ({
         await blogService.remove(blog.id);
         removeBlogFromState(blog.id);
       } catch (error) {
-        console.error("Failed to remove the blog:", error);
         const errorMessage =
           error.response?.data?.error || error.message || "Forbidden";
         alert(`Failed to remove the blog: ${errorMessage}`);
